@@ -46,7 +46,7 @@ public class TicTacToeTest {
 	@Test(expected=RuntimeException.class)
 	public void noSePuedeRepetirCasilla() {
 		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(0,Integer.MAX_VALUE));		
+		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(1, 1));		
 		TicTacToe tic = new TicTacToe(jugador, jugador);
 		tic.jugar();
 		tic.jugar();
