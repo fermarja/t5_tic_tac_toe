@@ -153,6 +153,7 @@ public class TicTacToeTest {
 		tic.jugar();
 		tic.jugar();
 		tic.jugar();
+		tic.jugar();
 	}
 	
 	
