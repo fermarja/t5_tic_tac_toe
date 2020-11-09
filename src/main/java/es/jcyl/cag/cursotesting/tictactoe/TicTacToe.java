@@ -103,11 +103,23 @@ public class TicTacToe {
 			return ganador(tmp3[0]);
 		}
 		
+		if (isTablas()) {
+			return Resultado.TABLAS;
+		}
 		
-
 		return Resultado.SEGUIR;
 	}
 	
+	private boolean isTablas() {
+		for (Casilla[] columna: tablero) {
+			for (Casilla casilla: columna) {
+				if (casilla == Casilla.VACIA) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
 	private Resultado ganador(Casilla casilla) {
 		if (Casilla.X == casilla) {
 			return Resultado.GANA_X;
