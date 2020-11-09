@@ -1,7 +1,10 @@
 package es.jcyl.cag.cursotesting.tictactoe;
 
-import org.junit.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import org.junit.Test;
 public class TicTacToeTest {
 
 	public TicTacToeTest () {
@@ -10,33 +13,48 @@ public class TicTacToeTest {
 	
 	@Test(expected=RuntimeException.class)
 	public void xFueraRangoNegativoExcepcion() {
-		TicTacToe tic = new TicTacToe();
-		tic.jugar(-1, 0);
+		Jugador jugador = mock(Jugador.class);
+		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(-1,0));		
+		TicTacToe tic = new TicTacToe(jugador, nullJugador());
+		tic.jugar();
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void xFueraRango() {
-		TicTacToe tic = new TicTacToe();
-		tic.jugar(Integer.MAX_VALUE, 0);
+		Jugador jugador = mock(Jugador.class);
+		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(Integer.MAX_VALUE,0));		
+		TicTacToe tic = new TicTacToe(jugador, nullJugador());
+		tic.jugar();
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void yFueraRangoNegativoExcepcion() {
-		TicTacToe tic = new TicTacToe();
-		tic.jugar(0, -1);
+		Jugador jugador = mock(Jugador.class);
+		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(0,-1));		
+		TicTacToe tic = new TicTacToe(jugador, nullJugador());
+		tic.jugar();
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void yFueraRango() {
-		TicTacToe tic = new TicTacToe();
-		tic.jugar(Integer.MAX_VALUE, 0);
+		Jugador jugador = mock(Jugador.class);
+		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(0,Integer.MAX_VALUE));		
+		TicTacToe tic = new TicTacToe(jugador, nullJugador());
+		tic.jugar();
 	}
 
 	@Test(expected=RuntimeException.class)
 	public void noSePuedeRepetirCasilla() {
-		TicTacToe tic = new TicTacToe();
-		tic.jugar(1, 1);
-		tic.jugar(1, 1);
+		Jugador jugador = mock(Jugador.class);
+		when(jugador.jugar(any(Casilla[][].class))).thenReturn(new Posicion(0,Integer.MAX_VALUE));		
+		TicTacToe tic = new TicTacToe(jugador, jugador);
+		tic.jugar();
+		tic.jugar();
+	}
+	
+	
+	private Jugador nullJugador() {
+		return mock(Jugador.class);
 	}
  
 
