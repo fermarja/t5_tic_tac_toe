@@ -7,7 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
-import org.mockito.BDDMockito.Then;
+
 public class TicTacToeTest {
 
 	public TicTacToeTest () {
