@@ -6,7 +6,11 @@
 	<artifactId>t5_tic_tac_toe</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -23,6 +27,12 @@
 			<groupId>pl.pragmatists</groupId>
 			<artifactId>JUnitParams</artifactId>
 			<version>1.1.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>3.6.0</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
