@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
+import org.mockito.BDDMockito.Then;
 public class TicTacToeTest {
 
 	public TicTacToeTest () {
@@ -58,7 +59,7 @@ public class TicTacToeTest {
 	
 	@Test
 	public void empiezaJugandoX() {
-		Jugador jugador = nullJugador();
+		Jugador jugador = jugadorFila(1);
 		TicTacToe tic = new TicTacToe(jugador, nullJugador());
 		tic.jugar();
 		verify(jugador).jugar(anyCasilla());
@@ -66,8 +67,8 @@ public class TicTacToeTest {
 	
 	@Test
 	public void segundaJugadoaY() {
-		Jugador jugadorX = nullJugador();
-		Jugador jugadorY = nullJugador();
+		Jugador jugadorX = jugadorFila(1);
+		Jugador jugadorY = jugadorFila(2);
 		TicTacToe tic = new TicTacToe(jugadorX, jugadorY);		
 		tic.jugar();
 		verify(jugadorX).jugar(anyCasilla());
@@ -77,8 +78,8 @@ public class TicTacToeTest {
 	
 	@Test
 	public void terceraJugadoaX() {
-		Jugador jugadorX = nullJugador();
-		Jugador jugadorY = nullJugador();
+		Jugador jugadorX = jugadorFila(1);
+		Jugador jugadorY = jugadorFila(2);
 		TicTacToe tic = new TicTacToe(jugadorX, jugadorY);		
 		tic.jugar();
 		verify(jugadorX).jugar(anyCasilla());
@@ -96,6 +97,12 @@ public class TicTacToeTest {
 	
 	private Jugador nullJugador() {
 		return mock(Jugador.class);
+	}
+	
+	private Jugador jugadorFila(int fila) {
+		Jugador jugador = mock(Jugador.class);
+		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(fila, 0), new Posicion(fila, 1), new Posicion(fila, 2));		
+		return jugador;
 	}
  
 
