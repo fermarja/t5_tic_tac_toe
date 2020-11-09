@@ -149,6 +149,28 @@ public class TicTacToeTest {
 		tic.jugar();
 	}
 	
+	@Test
+	public void testTablas() {
+		/*
+		 0 X 0
+		 X X 0
+		 X 0 X
+		 */
+		Jugador jugadorX = crearJugador(new int[][] {{ 1, 0 }, {0, 1}, {1, 1}, {2,0}, {2,2}});
+		Jugador jugadorO = crearJugador(new int[][] {{ 0, 0 }, {0, 2}, {1, 2} , {2,1}});
+		TicTacToe tic = new TicTacToe(jugadorX, jugadorO);
+		tic.jugar();
+		tic.jugar();
+		tic.jugar();
+		tic.jugar();
+		tic.jugar();
+		tic.jugar();
+		tic.jugar();
+		tic.jugar();		
+		Resultado resultado = tic.jugar();
+		Assert.assertEquals(Resultado.TABLAS, resultado);
+	}
+	
 	
 	private Casilla[][] anyCasilla() {
 		return any(Casilla[][].class);
