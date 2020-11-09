@@ -25,22 +25,23 @@ public class TicTacToe {
 		}
 	}
 	
-	public void jugar() {
+	public Resultado jugar() {
+		Resultado resultado = null;
 		if (turno == Casilla.X) {
 			Posicion p = jugadorX.jugar(clonarTablero());
-			jugar(p.getX(), p.getY(), turno);
+			resultado = jugar(p.getX(), p.getY(), turno);
 			turno = Casilla.O;
 		}
 		else {
 			Posicion p = jugadorO.jugar(clonarTablero());
-			jugar(p.getX(), p.getY(), turno);
+			resultado = jugar(p.getX(), p.getY(), turno);
 			turno = Casilla.X;
 		}
-		
+		return resultado;
 	}
 	
 	
-	private void jugar(int x, int y, Casilla turno) {
+	private Resultado jugar(int x, int y, Casilla turno) {
 		if (x < 0 || x >= TAMANO) {
 			throw new RuntimeException("valor de x invalido:" + x);
 		}
@@ -53,6 +54,7 @@ public class TicTacToe {
 		else {
 			throw new RuntimeException("Ya ha rellenado la casilla " + x + " "  + y);
 		}
+		return Resultado.SEGUIR;
 	}
 	
 	private Casilla[][] clonarTablero() {
