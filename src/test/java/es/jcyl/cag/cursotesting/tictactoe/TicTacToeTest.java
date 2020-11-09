@@ -17,32 +17,28 @@ public class TicTacToeTest {
 	
 	@Test(expected=RuntimeException.class)
 	public void xFueraRangoNegativoExcepcion() {
-		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(-1,0));		
+		Jugador jugador = crearJugador(-1, 0);
 		TicTacToe tic = new TicTacToe(jugador, nullJugador());
 		tic.jugar();
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void xFueraRango() {
-		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(Integer.MAX_VALUE,0));		
+		Jugador jugador = crearJugador(Integer.MAX_VALUE, 0);	
 		TicTacToe tic = new TicTacToe(jugador, nullJugador());
 		tic.jugar();
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void yFueraRangoNegativoExcepcion() {
-		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(0,-1));		
+		Jugador jugador = crearJugador(0,-1);		
 		TicTacToe tic = new TicTacToe(jugador, nullJugador());
 		tic.jugar();
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void yFueraRango() {
-		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(0,Integer.MAX_VALUE));		
+		Jugador jugador = crearJugador(0, Integer.MAX_VALUE);	
 		TicTacToe tic = new TicTacToe(jugador, nullJugador());
 		tic.jugar();
 	}
@@ -51,8 +47,7 @@ public class TicTacToeTest {
 
 	@Test(expected=RuntimeException.class)
 	public void noSePuedeRepetirCasilla() {
-		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(1, 1));		
+		Jugador jugador = crearJugador(1, 1);			
 		TicTacToe tic = new TicTacToe(jugador, jugador);
 		tic.jugar();
 		tic.jugar();
@@ -130,10 +125,8 @@ public class TicTacToeTest {
 	
 	@Test
 	public void testVictoriaDiagonal() {
-		Jugador jugadorX = mock(Jugador.class);
-		when(jugadorX.jugar(anyCasilla())).thenReturn(new Posicion(0, 0), new Posicion(1, 1), new Posicion(2, 2));		
-		Jugador jugadorO = mock(Jugador.class);
-		when(jugadorO.jugar(anyCasilla())).thenReturn(new Posicion(1, 0), new Posicion(2, 0));	
+		Jugador jugadorX = crearJugador(new int[][] {{ 0, 0 }, {1, 1 }, {2, 2}});
+		Jugador jugadorO = crearJugador(new int[][] {{ 1, 0 }, {2, 1 }});
 		TicTacToe tic = new TicTacToe(jugadorX, jugadorO);
 		tic.jugar();
 		tic.jugar();
@@ -146,8 +139,8 @@ public class TicTacToeTest {
 	@Test(expected = RuntimeException.class)
 	public void testExcepcionSiContinuaTrasGanar() {
 		Jugador jugadorX = jugadorFila(1);
-		Jugador jugadorY = jugadorFila(2);
-		TicTacToe tic = new TicTacToe(jugadorX, jugadorY);
+		Jugador jugadorO = jugadorFila(2);
+		TicTacToe tic = new TicTacToe(jugadorX, jugadorO);
 		tic.jugar();
 		tic.jugar();
 		tic.jugar();
@@ -166,15 +159,40 @@ public class TicTacToeTest {
 	}
 	
 	private Jugador jugadorFila(int fila) {
-		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(fila, 0), new Posicion(fila, 1), new Posicion(fila, 2));		
-		return jugador;
+		return crearJugador(new int[][] {{ fila,0 }, {fila, 1 }, {fila, 2}});
 	}
 	
 	private Jugador jugadorColumna(int columna) {
+		return crearJugador(new int[][] {{0, columna}, {1, columna}, {2, columna}});
+	}
+	
+	private Jugador crearJugador(int x, int y) {
+		return crearJugador(new int[][] { { x, y } });
+	}
+	
+	private Jugador crearJugador(int[]... jugadas) {
+		Posicion[] posiciones = jugadasAPosiciones(jugadas);
 		Jugador jugador = mock(Jugador.class);
-		when(jugador.jugar(anyCasilla())).thenReturn(new Posicion(0, columna), new Posicion(1, columna), new Posicion(2, columna));		
+		if (posiciones.length == 1) {
+			when(jugador.jugar(anyCasilla())).thenReturn(posiciones[0]);		
+		}
+		else {
+			Posicion[] resto =  new Posicion[posiciones.length -1];
+			for (int i = 1; i < posiciones.length; i++) {
+				resto[i-1] = posiciones[i];
+			}
+			when(jugador.jugar(anyCasilla())).thenReturn(posiciones[0], resto);
+		}
 		return jugador;
+	}
+
+	private Posicion[] jugadasAPosiciones(int[][] jugadas) {
+		Posicion[] posiciones = new Posicion[jugadas.length];
+		for (int i = 0; i < posiciones.length; i++) {
+			int[] jugada = jugadas[i];
+			posiciones[i] = new Posicion(jugada[0], jugada[1]);
+		}
+		return posiciones;
 	}
  
 
